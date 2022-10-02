@@ -15,6 +15,6 @@ public class MadMaxProcessor implements Processor {
 
     @Override
     public Badge getBadgeType() {
-        return null;
+        return Badge.MAD_MAX;
     }
 }

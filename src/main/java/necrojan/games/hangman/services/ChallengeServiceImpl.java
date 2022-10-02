@@ -70,10 +70,11 @@ public class ChallengeServiceImpl implements ChallengeService {
                 .stream()
                 .map(Card::getBadgeType)
                 .collect(Collectors.toSet());
-        log.info("Existing badges {}", existingBadges);
 
         List<Card> cards = processors.stream()
-                .filter(processor -> !existingBadges.contains(processor.getBadgeType()))
+                .filter(processor -> {
+                    return !existingBadges.contains(processor.getBadgeType());
+                })
                 .map(processor -> processor.getOptionalBadgeType(total, maxAttempts))
                 .flatMap(Optional::stream)
                 .map(badge -> new Card(user.getId(), badge))
