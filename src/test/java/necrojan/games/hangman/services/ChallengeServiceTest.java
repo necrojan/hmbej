@@ -54,6 +54,8 @@ public class ChallengeServiceTest {
     public void checkExistingUser() {
         User existingUser = new User(1L, "jon snow");
         given(userRepository.findByName("jon snow")).willReturn(Optional.of(existingUser));
+        given(challengeAttemptRepository.getTotalSuccessForUser(1L)).willReturn(Optional.of(1));
+        given(challengeAttemptRepository.totalMaxAttemptsViaUser(1L)).willReturn(Optional.of(3));
 
         ChallengeAttemptDto dto = new ChallengeAttemptDto(
                 "jon snow",

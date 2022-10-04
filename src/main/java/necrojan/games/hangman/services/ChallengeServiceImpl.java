@@ -72,9 +72,7 @@ public class ChallengeServiceImpl implements ChallengeService {
                 .collect(Collectors.toSet());
 
         List<Card> cards = processors.stream()
-                .filter(processor -> {
-                    return !existingBadges.contains(processor.getBadgeType());
-                })
+                .filter(processor -> !existingBadges.contains(processor.getBadgeType()))
                 .map(processor -> processor.getOptionalBadgeType(total, maxAttempts))
                 .flatMap(Optional::stream)
                 .map(badge -> new Card(user.getId(), badge))
