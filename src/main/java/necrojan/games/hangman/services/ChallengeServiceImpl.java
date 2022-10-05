@@ -9,6 +9,7 @@ import necrojan.games.hangman.repositories.ChallengeAttemptRepository;
 import necrojan.games.hangman.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -47,11 +48,10 @@ public class ChallengeServiceImpl implements ChallengeService {
                 challengeAttemptDto.isSuccess()
         );
 
+        challengeAttemptRepository.save(challengeAttempt);
+
         // get the success attempts from user
         List<Card> cardList = processCard(user);
-
-
-        challengeAttemptRepository.save(challengeAttempt);
 
         return challengeAttempt;
     }
@@ -59,6 +59,9 @@ public class ChallengeServiceImpl implements ChallengeService {
     private List<Card> processCard(User user) {
         Long userId = user.getId();
         Optional<Integer> totalSuccessOpt = challengeAttemptRepository.getTotalSuccessForUser(userId);
+        if (totalSuccessOpt.isEmpty()) {
+            return Collections.emptyList();
+        }
         int total = totalSuccessOpt.get();
 
         Optional<Integer> maxAttemptsOpt = challengeAttemptRepository
